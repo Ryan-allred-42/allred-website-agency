@@ -219,17 +219,17 @@ function About() {
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <div className="max-w-3xl">
           <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-            Hi, I&apos;m Ryan.
+            A one-person studio, zero agency bloat.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-slate-300">
-            I&apos;m a web developer based in {SITE.location}. I build the
-            site, handle the hosting and the technical details, and make sure
-            it shows up on Google — you just approve the design and watch the
-            quote requests come in.
+            Allred Website Agency is a web studio based in {SITE.location},
+            run by Ryan Allred. You work directly with Ryan from first call
+            to launch — no account managers, no six-month timelines.
           </p>
           <p className="mt-4 text-lg leading-relaxed text-slate-300">
-            No agencies, no account managers, no six-month timelines. You work
-            directly with me from first call to launch.
+            He designs and builds the site, handles the hosting and the
+            technical details, and makes sure it shows up on Google. You just
+            approve the design and watch the quote requests come in.
           </p>
         </div>
       </div>

@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ryan Allred — Websites for Small Businesses",
+  title: "Allred Website Agency — Websites for Small Businesses",
   description:
     "Fast, modern websites for small businesses. Landing pages, full sites, and SEO — delivered in weeks, not months.",
 };

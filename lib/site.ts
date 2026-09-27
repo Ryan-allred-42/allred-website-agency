@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "Ryan Allred",
+  name: "Allred Website Agency",
   tagline: "Websites for small businesses",
   location: "Lehi, Utah",
   // TODO(Ryan): replace with your real contact email, then redeploy
