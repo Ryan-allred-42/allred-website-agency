@@ -10,7 +10,7 @@ export const SITE = {
 export const PACKAGES = [
   {
     name: "Landing Page",
-    price: "$750",
+    price: "$375",
     cadence: "one-time",
     blurb: "Perfect for promoting one service, offer, or grand opening.",
     features: [
@@ -25,7 +25,7 @@ export const PACKAGES = [
   },
   {
     name: "Business Website",
-    price: "$1,500",
+    price: "$750",
     cadence: "one-time",
     blurb: "A complete online home for your business.",
     features: [
@@ -40,7 +40,7 @@ export const PACKAGES = [
   },
   {
     name: "SEO Tune-up",
-    price: "$500",
+    price: "$250",
     cadence: "one-time",
     blurb: "Already have a site? Get found on Google.",
     features: [
@@ -55,7 +55,7 @@ export const PACKAGES = [
   },
   {
     name: "Care Plan",
-    price: "$99",
+    price: "$49",
     cadence: "/month",
     blurb: "Never think about your website again.",
     features: [

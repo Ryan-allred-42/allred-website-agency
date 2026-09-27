@@ -1,156 +1,356 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { PACKAGES, SITE, STEPS } from "../lib/site";
 
 const mailto = (subject: string) =>
   `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}`;
 
+const EASE = [0.21, 0.47, 0.32, 0.98] as const;
+
+function Reveal({
+  children,
+  delay = 0,
+  className,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-70px" }}
+      transition={{ duration: 0.75, delay, ease: EASE }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-lime">
+      <span className="h-px w-8 bg-lime" />
+      {children}
+    </p>
+  );
+}
+
+/* ------------------------------ nav ------------------------------ */
 function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <motion.header
+      initial={{ y: -70, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: EASE }}
+      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/80 backdrop-blur-xl"
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className="text-lg font-bold tracking-tight">
-          {SITE.name}
-          <span className="text-blue-600">.</span>
+        <a href="#top" className="font-display text-xl font-bold tracking-tight">
+          Allred<span className="text-lime">.</span>
         </a>
-        <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
-          <a href="#packages" className="hover:text-slate-900">Packages</a>
-          <a href="#process" className="hover:text-slate-900">Process</a>
-          <a href="#work" className="hover:text-slate-900">Work</a>
-          <a href="#about" className="hover:text-slate-900">About</a>
+        <nav className="hidden items-center gap-8 text-sm font-medium text-white/60 md:flex">
+          {[
+            ["Work", "#work"],
+            ["Pricing", "#pricing"],
+            ["Process", "#process"],
+          ].map(([label, href]) => (
+            <a key={href} href={href} className="transition hover:text-white">
+              {label}
+            </a>
+          ))}
         </nav>
-        <a
+        <motion.a
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.96 }}
           href={mailto("Free quote request")}
-          className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+          className="rounded-full bg-lime px-5 py-2.5 text-sm font-bold text-ink"
         >
-          Get a free quote
-        </a>
+          Get a quote
+        </motion.a>
       </div>
-    </header>
+    </motion.header>
   );
 }
 
+/* ------------------------------ hero ------------------------------ */
 function Hero() {
   return (
-    <section id="top" className="bg-slate-950 text-white">
-      <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-400">
-          Web design &amp; development for small businesses
-        </p>
-        <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
-          A website that actually brings you customers.
+    <section id="top" className="relative overflow-hidden pt-36 pb-20 md:pt-44 md:pb-28">
+      {/* ambient background */}
+      <div className="pointer-events-none absolute inset-0">
+        <motion.div
+          animate={{ x: [0, 60, -30, 0], y: [0, -40, 30, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-32 left-1/4 h-[480px] w-[480px] rounded-full bg-lime/15 blur-[140px]"
+        />
+        <motion.div
+          animate={{ x: [0, -50, 40, 0], y: [0, 50, -30, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-40 right-0 h-[420px] w-[420px] rounded-full bg-vio/20 blur-[140px]"
+        />
+        <div className="bg-dots absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,black,transparent)]" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/70"
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-60" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-lime" />
+          </span>
+          Booking new projects — 2 spots left this month
+        </motion.div>
+
+        <h1 className="font-display max-w-5xl text-5xl font-bold leading-[1.02] tracking-tight md:text-8xl">
+          <motion.span
+            className="block"
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+          >
+            We design websites
+          </motion.span>
+          <motion.span
+            className="block"
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.22, ease: EASE }}
+          >
+            that make the{" "}
+            <span className="font-accent font-normal italic text-lime">
+              phone ring.
+            </span>
+          </motion.span>
         </h1>
-        <p className="mt-6 max-w-2xl text-lg text-slate-300">
-          I design and build fast, modern websites for small businesses — from
-          single landing pages to full sites with SEO baked in. Delivered in
-          weeks, not months, with zero tech headaches for you.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-4">
-          <a
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.36, ease: EASE }}
+          className="mt-7 max-w-2xl text-lg leading-relaxed text-white/60 md:text-xl"
+        >
+          Allred Website Agency builds fast, search-optimized websites for
+          small businesses. Fixed pricing, two-week delivery, zero tech
+          headaches.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.48, ease: EASE }}
+          className="mt-10 flex flex-wrap items-center gap-4"
+        >
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
             href={mailto("Free quote request")}
-            className="rounded-full bg-blue-600 px-7 py-3.5 font-semibold text-white hover:bg-blue-500"
+            className="group rounded-full bg-lime px-8 py-4 font-display text-base font-bold text-ink shadow-[0_0_50px_-10px] shadow-lime/50"
           >
             Get a free quote
-          </a>
-          <a
-            href="#packages"
-            className="rounded-full border border-slate-600 px-7 py-3.5 font-semibold text-white hover:border-slate-400"
+            <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">
+              →
+            </span>
+          </motion.a>
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+            href="#pricing"
+            className="rounded-full border border-white/20 px-8 py-4 font-display text-base font-bold text-white transition hover:border-white/50"
           >
-            See packages
-          </a>
-        </div>
-        <div className="mt-10 flex flex-wrap gap-x-8 gap-y-2 text-sm text-slate-400">
-          <span>✓ 2-week delivery</span>
-          <span>✓ SEO included</span>
-          <span>✓ You own everything</span>
-          <span>✓ Fixed pricing, no surprises</span>
+            See pricing
+          </motion.a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.7 }}
+          className="mt-14 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-8"
+        >
+          {[
+            ["$375", "starting price"],
+            ["2 wks", "typical delivery"],
+            ["100%", "custom design, SEO baked in"],
+          ].map(([big, small]) => (
+            <div key={small}>
+              <p className="font-display text-3xl font-bold text-lime">{big}</p>
+              <p className="mt-1 text-sm text-white/50">{small}</p>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------- marquee ---------------------------- */
+function Marquee() {
+  const items = [
+    "Landing Pages",
+    "Web Design",
+    "SEO",
+    "Branding",
+    "Copywriting",
+    "Hosting",
+  ];
+  const row = [...items, ...items];
+  return (
+    <section className="relative -rotate-1 border-y-4 border-ink bg-lime py-4">
+      <div className="overflow-hidden">
+        <div className="marquee-track flex w-max items-center gap-8 pr-8">
+          {row.map((item, i) => (
+            <span
+              key={i}
+              className="flex items-center gap-8 font-display text-xl font-bold uppercase tracking-wide text-ink"
+            >
+              {item}
+              <span className="text-ink/50">✦</span>
+            </span>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function Packages() {
+/* ---------------------------- pricing ---------------------------- */
+function Pricing() {
   return (
-    <section id="packages" className="bg-white">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-          Simple packages, fixed prices
-        </h2>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600">
-          Pick the package that fits. Every project includes up to 2 rounds of
-          revisions and a simple one-page agreement.
-        </p>
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {PACKAGES.map((p) => (
-            <div
-              key={p.name}
-              className={`flex flex-col rounded-2xl border p-7 ${
-                p.featured
-                  ? "border-blue-600 shadow-lg shadow-blue-100 ring-1 ring-blue-600"
-                  : "border-slate-200"
-              }`}
-            >
-              {p.featured && (
-                <span className="mb-3 w-fit rounded-full bg-blue-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
-                  Most popular
-                </span>
-              )}
-              <h3 className="text-lg font-bold">{p.name}</h3>
-              <p className="mt-1 text-sm text-slate-500">{p.blurb}</p>
-              <p className="mt-4">
-                <span className="text-4xl font-extrabold">{p.price}</span>
-                <span className="text-sm text-slate-500"> {p.cadence}</span>
-              </p>
-              <ul className="mt-5 flex-1 space-y-2.5 text-sm text-slate-700">
-                {p.features.map((f) => (
-                  <li key={f} className="flex gap-2">
-                    <span className="text-blue-600">✓</span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={mailto(`Interested in: ${p.name} (${p.price}${p.cadence === "/month" ? "/mo" : ""})`)}
-                className={`mt-6 rounded-full px-5 py-2.5 text-center text-sm font-semibold ${
+    <section id="pricing" className="relative py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <Eyebrow>Pricing</Eyebrow>
+          <h2 className="font-display max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
+            Simple pricing,{" "}
+            <span className="font-accent font-normal italic text-lime">
+              no surprises.
+            </span>
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-white/60">
+            Every project includes up to 2 rounds of revisions and a simple
+            one-page agreement. 50% deposit to start.
+          </p>
+        </Reveal>
+
+        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {PACKAGES.map((p, i) => (
+            <Reveal key={p.name} delay={i * 0.08} className="h-full">
+              <motion.div
+                whileHover={{ y: -10 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                className={`relative flex h-full flex-col rounded-3xl p-8 ${
                   p.featured
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "border border-slate-300 hover:border-slate-500"
+                    ? "bg-lime text-ink shadow-[0_0_70px_-15px] shadow-lime/40"
+                    : "border border-white/10 bg-panel"
                 }`}
               >
-                {p.cta}
-              </a>
-            </div>
+                {p.featured && (
+                  <span className="absolute -top-3.5 left-8 rounded-full bg-ink px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-lime">
+                    Most popular
+                  </span>
+                )}
+                <h3 className="font-display text-lg font-bold">{p.name}</h3>
+                <p
+                  className={`mt-1 text-sm ${
+                    p.featured ? "text-ink/70" : "text-white/50"
+                  }`}
+                >
+                  {p.blurb}
+                </p>
+                <p className="mt-5 flex items-baseline gap-1">
+                  <span className="font-display text-5xl font-bold">
+                    {p.price}
+                  </span>
+                  <span
+                    className={`text-sm ${
+                      p.featured ? "text-ink/60" : "text-white/40"
+                    }`}
+                  >
+                    {p.cadence}
+                  </span>
+                </p>
+                <ul
+                  className={`mt-6 flex-1 space-y-3 text-sm ${
+                    p.featured ? "text-ink/80" : "text-white/70"
+                  }`}
+                >
+                  {p.features.map((f) => (
+                    <li key={f} className="flex gap-2.5">
+                      <span className={p.featured ? "" : "text-lime"}>✓</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <motion.a
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  href={mailto(
+                    `Interested in: ${p.name} (${p.price}${
+                      p.cadence === "/month" ? "/mo" : ""
+                    })`
+                  )}
+                  className={`mt-8 rounded-full px-5 py-3 text-center font-display text-sm font-bold ${
+                    p.featured
+                      ? "bg-ink text-lime"
+                      : "border border-white/20 text-white transition hover:border-lime hover:text-lime"
+                  }`}
+                >
+                  {p.cta}
+                </motion.a>
+              </motion.div>
+            </Reveal>
           ))}
         </div>
-        <p className="mt-8 text-center text-sm text-slate-500">
-          Intro offer: first 2 landing-page clients get $500 pricing in exchange
-          for a testimonial.
-        </p>
+
+        <Reveal delay={0.1}>
+          <p className="mt-10 text-center text-sm text-white/40">
+            Intro offer: the first 2 landing-page clients get{" "}
+            <span className="font-bold text-lime">$250 pricing</span> in
+            exchange for a testimonial.
+          </p>
+        </Reveal>
       </div>
     </section>
   );
 }
 
+/* ---------------------------- process ---------------------------- */
 function Process() {
   return (
-    <section id="process" className="bg-slate-50">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-          How it works
-        </h2>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600">
-          Four steps. You approve things, I do everything else.
-        </p>
-        <div className="mt-12 grid gap-6 md:grid-cols-4">
-          {STEPS.map((s) => (
-            <div key={s.n} className="rounded-2xl bg-white p-7 shadow-sm">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-lg font-bold text-white">
-                {s.n}
+    <section id="process" className="relative border-t border-white/10 py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <Eyebrow>Process</Eyebrow>
+          <h2 className="font-display max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
+            First call to launch in{" "}
+            <span className="font-accent font-normal italic text-lime">
+              two weeks.
+            </span>
+          </h2>
+        </Reveal>
+        <div className="mt-14 grid gap-5 md:grid-cols-4">
+          {STEPS.map((s, i) => (
+            <Reveal key={s.n} delay={i * 0.08} className="h-full">
+              <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-panel p-8 transition-colors hover:border-lime/40">
+                <span className="font-display text-stroke text-7xl font-bold transition group-hover:text-lime group-hover:[-webkit-text-stroke:0px]">
+                  {s.n}
+                </span>
+                <h3 className="font-display mt-6 text-xl font-bold">
+                  {s.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/55">
+                  {s.body}
+                </p>
               </div>
-              <h3 className="mt-4 text-lg font-bold">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                {s.body}
-              </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -158,34 +358,50 @@ function Process() {
   );
 }
 
+/* ------------------------------ work ------------------------------ */
 function Work() {
   return (
-    <section id="work" className="bg-white">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-          Recent work
-        </h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <a
-            href={SITE.movewellUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="group rounded-2xl border border-slate-200 p-7 hover:border-blue-600"
-          >
-            <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-700">
-              Live project
+    <section id="work" className="relative border-t border-white/10 py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <Eyebrow>Work</Eyebrow>
+          <h2 className="font-display max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
+            Proof,{" "}
+            <span className="font-accent font-normal italic text-lime">
+              not promises.
             </span>
-            <h3 className="mt-4 text-xl font-bold group-hover:text-blue-600">
-              Movewell
-            </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Lead-generation platform for real estate agents. 10 city pages,
-              live lead capture, full SEO foundations.
-            </p>
-            <p className="mt-4 text-sm font-semibold text-blue-600">
-              Visit site →
-            </p>
-          </a>
+          </h2>
+        </Reveal>
+
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
+          <Reveal className="h-full">
+            <motion.a
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              href={SITE.movewellUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group flex h-full flex-col rounded-3xl border border-lime/30 bg-gradient-to-br from-lime/10 to-transparent p-8"
+            >
+              <span className="w-fit rounded-full bg-lime px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-ink">
+                Live project
+              </span>
+              <h3 className="font-display mt-5 text-2xl font-bold">
+                Movewell
+              </h3>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-white/60">
+                Lead-generation platform for real estate agents. 10 city
+                pages, live lead capture, full SEO foundations.
+              </p>
+              <p className="mt-6 font-display text-sm font-bold text-lime">
+                Visit site{" "}
+                <span className="inline-block transition-transform group-hover:translate-x-1.5">
+                  →
+                </span>
+              </p>
+            </motion.a>
+          </Reveal>
+
           {[
             {
               name: "Harbor Plumbing Co.",
@@ -195,17 +411,20 @@ function Work() {
               name: "Cedar Dental Studio",
               body: "Website concept for a dental practice — booking flow, services, and local SEO structure.",
             },
-          ].map((c) => (
-            <div
-              key={c.name}
-              className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-7"
-            >
-              <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold uppercase tracking-wide text-slate-600">
-                Concept
-              </span>
-              <h3 className="mt-4 text-xl font-bold">{c.name}</h3>
-              <p className="mt-2 text-sm text-slate-600">{c.body}</p>
-            </div>
+          ].map((c, i) => (
+            <Reveal key={c.name} delay={0.08 * (i + 1)} className="h-full">
+              <div className="flex h-full flex-col rounded-3xl border border-dashed border-white/15 bg-white/[0.02] p-8">
+                <span className="w-fit rounded-full border border-white/15 px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-white/40">
+                  Concept
+                </span>
+                <h3 className="font-display mt-5 text-2xl font-bold">
+                  {c.name}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-white/55">
+                  {c.body}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -213,59 +432,96 @@ function Work() {
   );
 }
 
+/* ------------------------------ about ----------------------------- */
 function About() {
   return (
-    <section id="about" className="bg-slate-950 text-white">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <div className="max-w-3xl">
-          <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-            A one-person studio, zero agency bloat.
-          </h2>
-          <p className="mt-5 text-lg leading-relaxed text-slate-300">
+    <section className="relative overflow-hidden border-t border-white/10 py-24 md:py-32">
+      <motion.div
+        animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute top-10 left-1/3 h-[380px] w-[380px] rounded-full bg-vio/15 blur-[130px]"
+      />
+      <div className="relative mx-auto max-w-5xl px-6 text-center">
+        <Reveal>
+          <p className="font-display text-3xl font-bold leading-snug tracking-tight md:text-5xl md:leading-tight">
+            One person. No account managers, no bloated timelines — just a
+            website that{" "}
+            <span className="font-accent font-normal italic text-lime">
+              works as hard as you do.
+            </span>
+          </p>
+          <p className="mx-auto mt-6 max-w-2xl text-white/55">
             Allred Website Agency is a web studio based in {SITE.location},
             run by Ryan Allred. You work directly with Ryan from first call
-            to launch — no account managers, no six-month timelines.
+            to launch.
           </p>
-          <p className="mt-4 text-lg leading-relaxed text-slate-300">
-            He designs and builds the site, handles the hosting and the
-            technical details, and makes sure it shows up on Google. You just
-            approve the design and watch the quote requests come in.
-          </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
 }
 
+/* ----------------------------- contact ---------------------------- */
 function Contact() {
   return (
-    <section id="contact" className="bg-white">
-      <div className="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
-        <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-          Let&apos;s talk about your project
-        </h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-slate-600">
-          Tell me about your business and I&apos;ll reply within 24 hours with
-          a recommendation and a fixed quote. No pressure, no jargon.
-        </p>
-        <a
-          href={mailto("Free quote request — my business website")}
-          className="mt-8 inline-block rounded-full bg-blue-600 px-9 py-4 text-lg font-semibold text-white hover:bg-blue-700"
-        >
-          Get a free quote
-        </a>
-        <p className="mt-4 text-sm text-slate-500">
-          Prefer to browse first? <a href="#packages" className="font-semibold text-blue-600">See packages</a>
-        </p>
+    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-28 md:py-36">
+      <div className="pointer-events-none absolute inset-0">
+        <motion.div
+          animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-lime/12 blur-[140px]"
+        />
+      </div>
+      <div className="relative mx-auto max-w-4xl px-6 text-center">
+        <Reveal>
+          <Eyebrow>
+            <span className="mx-auto flex items-center gap-3">
+              <span className="h-px w-8 bg-lime" />
+              Contact
+              <span className="h-px w-8 bg-lime" />
+            </span>
+          </Eyebrow>
+          <h2 className="font-display text-5xl font-bold tracking-tight md:text-7xl">
+            Let&apos;s build{" "}
+            <span className="font-accent font-normal italic text-lime">
+              yours.
+            </span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg text-white/60">
+            Tell me about your business and I&apos;ll reply within 24 hours
+            with a recommendation and a fixed quote. No pressure, no jargon.
+          </p>
+          <motion.a
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.95 }}
+            href={mailto("Free quote request — my business website")}
+            className="mt-10 inline-block rounded-full bg-lime px-12 py-5 font-display text-lg font-bold text-ink shadow-[0_0_80px_-15px] shadow-lime/60"
+          >
+            Get a free quote →
+          </motion.a>
+          <p className="mt-6 text-sm text-white/40">
+            Prefer email?{" "}
+            <a
+              href={mailto("Free quote request")}
+              className="font-semibold text-lime hover:underline"
+            >
+              {SITE.email}
+            </a>
+          </p>
+        </Reveal>
       </div>
     </section>
   );
 }
 
+/* ------------------------------ footer ---------------------------- */
 function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-slate-500 md:flex-row">
+    <footer className="border-t border-white/10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-white/40 md:flex-row">
+        <p className="font-display font-bold text-white">
+          Allred<span className="text-lime">.</span>
+        </p>
         <p>© 2026 {SITE.name}. All rights reserved.</p>
         <p>{SITE.location}</p>
       </div>
@@ -275,17 +531,18 @@ function Footer() {
 
 export default function Home() {
   return (
-    <>
+    <div className="grain">
       <Nav />
       <main>
         <Hero />
-        <Packages />
+        <Marquee />
+        <Pricing />
         <Process />
         <Work />
         <About />
         <Contact />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
