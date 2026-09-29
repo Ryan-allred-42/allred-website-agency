@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { PACKAGES, SITE, STEPS } from "../lib/site";
 
 const mailto = (subject: string) =>
@@ -57,6 +58,7 @@ function Nav() {
             ["Work", "#work"],
             ["Pricing", "#pricing"],
             ["Process", "#process"],
+            ["FAQ", "#faq"],
           ].map(([label, href]) => (
             <a key={href} href={href} className="transition hover:text-white">
               {label}
@@ -221,6 +223,111 @@ function Marquee() {
   );
 }
 
+/* ---------------------------- included --------------------------- */
+function Included() {
+  const items: [string, string][] = [
+    [
+      "Mobile-first design",
+      "Most of your customers are on phones. Every site is designed phone-first and looks sharp on any screen.",
+    ],
+    [
+      "SEO foundations",
+      "Page titles, meta descriptions, sitemaps, and local keywords — so Google can actually find you.",
+    ],
+    [
+      "Fast, secure hosting",
+      "SSL, backups, and hosting that loads in under two seconds. No tech headaches, ever.",
+    ],
+    [
+      "Quote & contact forms",
+      "Forms that email you the instant a customer reaches out. Tap-to-call buttons on mobile.",
+    ],
+    [
+      "Google Business Profile",
+      "Setup and optimization help so you show up in Maps and local search results.",
+    ],
+    [
+      "Analytics included",
+      "See how many people visit and where they come from — plain-English reports, no jargon.",
+    ],
+  ];
+  return (
+    <section className="relative py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <Eyebrow>What&apos;s included</Eyebrow>
+          <h2 className="font-display max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
+            Every site ships with{" "}
+            <span className="font-accent font-normal italic text-lime">
+              the works.
+            </span>
+          </h2>
+        </Reveal>
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map(([title, body], i) => (
+            <Reveal key={title} delay={(i % 3) * 0.08} className="h-full">
+              <div className="h-full rounded-3xl border border-white/10 bg-panel p-7 transition-colors hover:border-lime/40">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-lime/15 font-bold text-lime">
+                  ✓
+                </span>
+                <h3 className="font-display mt-5 text-lg font-bold">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/55">
+                  {body}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------- who it's for ---------------------------- */
+function WhoItsFor() {
+  const items: [string, string][] = [
+    ["Home services", "Plumbers, electricians, HVAC — customers search, call, book."],
+    ["Restaurants & cafés", "Menus, hours, directions, reservations — all thumb-friendly."],
+    ["Clinics & dental", "Services, bios, and booking that build trust before the visit."],
+    ["Law & professional", "Credibility-first design that turns searches into consults."],
+    ["Fitness & studios", "Schedules, pricing, and sign-ups that fill your classes."],
+    ["Local retail", "Products, reviews, and directions that drive foot traffic."],
+  ];
+  return (
+    <section className="relative border-t border-white/10 py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <Eyebrow>Who it&apos;s for</Eyebrow>
+          <h2 className="font-display max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
+            Built for businesses like{" "}
+            <span className="font-accent font-normal italic text-lime">
+              yours.
+            </span>
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-white/60">
+            If your customers find you on Google and call you on their phone,
+            you&apos;re exactly who this is for.
+          </p>
+        </Reveal>
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map(([title, body], i) => (
+            <Reveal key={title} delay={(i % 3) * 0.08} className="h-full">
+              <div className="h-full rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-lime/40">
+                <h3 className="font-display text-lg font-bold text-lime">
+                  {title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/55">
+                  {body}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------------------- pricing ---------------------------- */
 function Pricing() {
   return (
@@ -309,6 +416,19 @@ function Pricing() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={0.05}>
+          <div className="mt-8 rounded-3xl border border-lime/30 bg-lime/[0.06] p-6 text-center md:p-8">
+            <p className="font-display text-lg font-bold text-lime">
+              The no-risk deal
+            </p>
+            <p className="mx-auto mt-2 max-w-2xl leading-relaxed text-white/65">
+              You approve the design before anything gets built — and if you
+              don&apos;t love it after two revision rounds, you don&apos;t pay
+              the second half.
+            </p>
+          </div>
+        </Reveal>
 
         <Reveal delay={0.1}>
           <p className="mt-10 text-center text-sm text-white/40">
@@ -432,6 +552,97 @@ function Work() {
   );
 }
 
+/* ------------------------------- faq ------------------------------- */
+const FAQS: [string, string][] = [
+  [
+    "How long does it take?",
+    "Most sites launch within two weeks of our kickoff call. Landing pages can be even faster.",
+  ],
+  [
+    "What do you need from me?",
+    "Your logo (if you have one), a few photos, and a 30-minute call about your business. I handle everything else — writing, design, and all the tech.",
+  ],
+  [
+    "Do I own my website?",
+    "Yes — 100%. The domain, the site, and all the content are yours, no strings attached.",
+  ],
+  [
+    "What about hosting?",
+    "Hosting, SSL, and backups are covered under the $49/mo Care Plan. Prefer your own account? I'll set it up there instead — your call.",
+  ],
+  [
+    "Can you redesign my existing site?",
+    "Absolutely. If the bones are good, an SEO tune-up may be enough. If not, we'll talk about a full rebuild — I'll tell you honestly which one you need.",
+  ],
+  [
+    "What if I don't like the design?",
+    "You approve the design before anything gets built, and two revision rounds are included. If you're still not happy, you don't pay the second half.",
+  ],
+  [
+    "How do payments work?",
+    "50% deposit to start, 50% when the site launches. Card, bank transfer, Venmo, or Zelle — whatever's easiest for you.",
+  ],
+];
+
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-white/10">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between gap-6 py-6 text-left"
+      >
+        <span className="font-display text-lg font-bold">{q}</span>
+        <motion.span
+          animate={{ rotate: open ? 45 : 0 }}
+          transition={{ duration: 0.25 }}
+          className="shrink-0 font-display text-2xl font-bold text-lime"
+        >
+          +
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <p className="max-w-3xl pb-6 leading-relaxed text-white/60">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function Faq() {
+  return (
+    <section id="faq" className="relative border-t border-white/10 py-24 md:py-32">
+      <div className="mx-auto max-w-4xl px-6">
+        <Reveal>
+          <Eyebrow>FAQ</Eyebrow>
+          <h2 className="font-display text-4xl font-bold tracking-tight md:text-6xl">
+            Questions?{" "}
+            <span className="font-accent font-normal italic text-lime">
+              Answered.
+            </span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1} className="mt-10">
+          <div className="border-t border-white/10">
+            {FAQS.map(([q, a]) => (
+              <FaqItem key={q} q={q} a={a} />
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------ about ----------------------------- */
 function About() {
   return (
@@ -536,9 +747,12 @@ export default function Home() {
       <main>
         <Hero />
         <Marquee />
+        <Included />
         <Pricing />
+        <WhoItsFor />
         <Process />
         <Work />
+        <Faq />
         <About />
         <Contact />
       </main>
